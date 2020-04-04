@@ -1,0 +1,269 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "name": "Untitled5.ipynb",
+      "provenance": [],
+      "authorship_tag": "ABX9TyNtQTeYnPXQZUsc3MoIvn42",
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/arunehealth/Co-Lab-Learning/blob/master/TextScrapping%20from%20pdf\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "iA7J_8gQoZ0B",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 512
+        },
+        "outputId": "ecb501ee-e91e-426a-ed71-6500fb597a18"
+      },
+      "source": [
+        "!pip install pdfplumber"
+      ],
+      "execution_count": 1,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Collecting pdfplumber\n",
+            "  Downloading https://files.pythonhosted.org/packages/22/cf/848211677d41fe985fcca61befcdc19402826af65cfdbb543676e40cfca5/pdfplumber-0.5.18.tar.gz\n",
+            "Requirement already satisfied: chardet in /usr/local/lib/python3.6/dist-packages (from pdfplumber) (3.0.4)\n",
+            "Collecting pycryptodome\n",
+            "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/af/16/da16a22d47bac9bf9db39f3b9af74e8eeed8855c0df96be20b580ef92fff/pycryptodome-3.9.7-cp36-cp36m-manylinux1_x86_64.whl (13.7MB)\n",
+            "\u001b[K     |████████████████████████████████| 13.7MB 273kB/s \n",
+            "\u001b[?25hCollecting unicodecsv>=0.14.1\n",
+            "  Downloading https://files.pythonhosted.org/packages/6f/a4/691ab63b17505a26096608cc309960b5a6bdf39e4ba1a793d5f9b1a53270/unicodecsv-0.14.1.tar.gz\n",
+            "Collecting pdfminer.six==20200104\n",
+            "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/22/bb/d38a297068723409193296f056c63fcefe6a8a784049b34bbdbf559b5118/pdfminer.six-20200104-py3-none-any.whl (5.6MB)\n",
+            "\u001b[K     |████████████████████████████████| 5.6MB 35.5MB/s \n",
+            "\u001b[?25hRequirement already satisfied: six in /usr/local/lib/python3.6/dist-packages (from pdfplumber) (1.12.0)\n",
+            "Requirement already satisfied: pillow>=7.0.0 in /usr/local/lib/python3.6/dist-packages (from pdfplumber) (7.0.0)\n",
+            "Collecting wand\n",
+            "\u001b[?25l  Downloading https://files.pythonhosted.org/packages/2e/06/5845baa21b3190248d571400cdeeb2de84f3c8757b2046c5ee1eadf59d7a/Wand-0.5.9-py2.py3-none-any.whl (129kB)\n",
+            "\u001b[K     |████████████████████████████████| 133kB 49.7MB/s \n",
+            "\u001b[?25hRequirement already satisfied: sortedcontainers in /usr/local/lib/python3.6/dist-packages (from pdfminer.six==20200104->pdfplumber) (2.1.0)\n",
+            "Building wheels for collected packages: pdfplumber, unicodecsv\n",
+            "  Building wheel for pdfplumber (setup.py) ... \u001b[?25l\u001b[?25hdone\n",
+            "  Created wheel for pdfplumber: filename=pdfplumber-0.5.18-cp36-none-any.whl size=30754 sha256=7e144abd721956f790d5b7d65aea28c7fd5e39ae81943ce8631c3a8e436ae2d5\n",
+            "  Stored in directory: /root/.cache/pip/wheels/3a/8c/7a/16c1cb9b43fe8f2fa123ca8ffdd82ccc511974054eeb5ab635\n",
+            "  Building wheel for unicodecsv (setup.py) ... \u001b[?25l\u001b[?25hdone\n",
+            "  Created wheel for unicodecsv: filename=unicodecsv-0.14.1-cp36-none-any.whl size=10768 sha256=33ec56cf7da96fd6b5f553c6fa8f8177f936835f22874be90fc55e0532dc207d\n",
+            "  Stored in directory: /root/.cache/pip/wheels/a6/09/e9/e800279c98a0a8c94543f3de6c8a562f60e51363ed26e71283\n",
+            "Successfully built pdfplumber unicodecsv\n",
+            "Installing collected packages: pycryptodome, unicodecsv, pdfminer.six, wand, pdfplumber\n",
+            "Successfully installed pdfminer.six-20200104 pdfplumber-0.5.18 pycryptodome-3.9.7 unicodecsv-0.14.1 wand-0.5.9\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "6GecDD7RooNz",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "import re"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "_K1p8F3vovoG",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "import requests"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "GMQwj5ADoxt0",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "import pdfplumber"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "DkTq7PuCozrs",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "import pandas as pd\n",
+        "from collections import namedtuple"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "dOaMZXLco33b",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "def download_file(url):\n",
+        "    local_filename = url.split('/')[-1]\n",
+        "    \n",
+        "    with requests.get(url) as r:\n",
+        "        with open(local_filename, 'wb') as f:\n",
+        "            f.write(r.content)\n",
+        "        \n",
+        "    return local_filename"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "2dpErEguo9Dq",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "\n",
+        "ap_url = 'https://www.gstatic.com/covid19/mobility/2020-03-29_IN_Mobility_Report_en.pdf'"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "7YbB0UbqpHW8",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "\n",
+        "ap = download_file(ap_url)"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "K4WftNH8pWOL",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "Inv = namedtuple('Inv', 'vend_num vend_name inv_dt due_dt inv_amt net_amt description')"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "Ks9JFK4upNOQ",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "with pdfplumber.open(ap) as pdf:\n",
+        "    page = pdf.pages[1]\n",
+        "    text = page.extract_text()"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "2v3Vrtu5pPzk",
+        "colab_type": "code",
+        "colab": {
+          "base_uri": "https://localhost:8080/",
+          "height": 439
+        },
+        "outputId": "256a861c-b308-4dee-d7e8-271b00fb581f"
+      },
+      "source": [
+        "print(text)"
+      ],
+      "execution_count": 12,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "text": [
+            "Transit stations\n",
+            "+80%\n",
+            "Mobility trends for places like public transport\n",
+            "-71% +40% hubs such as subway, bus, and train stations.\n",
+            "Baseline\n",
+            "-40%\n",
+            "compared to baseline -80%\n",
+            "Sun Feb 16 Sun Mar 8 Sun Mar 29\n",
+            "Workplaces\n",
+            "+80%\n",
+            "Mobility trends for places of work.\n",
+            "-47% +40%\n",
+            "Baseline\n",
+            "-40%\n",
+            "compared to baseline -80%\n",
+            "Sun Feb 16 Sun Mar 8 Sun Mar 29\n",
+            "Residential\n",
+            "+80%\n",
+            "Mobility trends for places of residence.\n",
+            "+22% +40%\n",
+            "Baseline\n",
+            "-40%\n",
+            "compared to baseline -80%\n",
+            "Sun Feb 16 Sun Mar 8 Sun Mar 29\n"
+          ],
+          "name": "stdout"
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "metadata": {
+        "id": "39hhRWQSpq5s",
+        "colab_type": "code",
+        "colab": {}
+      },
+      "source": [
+        "new_vend_re = re.compile(r'^\\d{Workplaces} [A-Z].*')\n"
+      ],
+      "execution_count": 0,
+      "outputs": []
+    }
+  ]
+}
